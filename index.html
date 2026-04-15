@@ -38,7 +38,9 @@
     margin-bottom: 8px;
     background: linear-gradient(135deg, var(--blue), var(--purple));
     -webkit-background-clip: text;
+    background-clip: text;
     -webkit-text-fill-color: transparent;
+    color: transparent;
   }
 
   .subtitle {
@@ -153,11 +155,76 @@
     gap: 20px;
   }
 
+  .table-wrap {
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+  }
+
+  .donate-banner {
+    position: fixed;
+    top: 12px;
+    right: 12px;
+    background: rgba(22,27,34,0.95);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 8px 14px;
+    font-size: 13px;
+    color: var(--muted);
+    z-index: 100;
+    backdrop-filter: blur(8px);
+    max-width: 220px;
+    text-align: center;
+    line-height: 1.4;
+  }
+  .donate-banner .heart { color: var(--red); font-size: 16px; }
+  .donate-banner .phone { color: var(--blue); font-family: 'JetBrains Mono', monospace; font-size: 12px; }
+
+  .quiz-float {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    z-index: 100;
+    padding: 12px;
+    display: flex;
+    justify-content: center;
+  }
+  .quiz-float a {
+    display: block;
+    width: 100%;
+    max-width: 600px;
+    text-align: center;
+    padding: 14px 24px;
+    background: linear-gradient(135deg, var(--blue), var(--purple));
+    color: #fff;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 16px;
+    font-weight: 700;
+    border-radius: 12px;
+    text-decoration: none;
+    box-shadow: 0 4px 20px rgba(88,166,255,0.3);
+    transition: transform 0.2s, box-shadow 0.2s;
+  }
+  .quiz-float a:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 28px rgba(88,166,255,0.45);
+  }
+
   @media (max-width: 700px) {
     .grid-2 { grid-template-columns: 1fr; }
     .rule-row { flex-direction: column; gap: 4px; }
     .rule-label { min-width: auto; }
-    body { padding: 12px; }
+    body { padding: 12px; padding-top: 70px; padding-bottom: 70px; }
+    table { font-size: 13px; }
+    th, td { padding: 6px 8px; }
+    .mono { font-size: 12px; }
+    .donate-banner { top: 8px; right: 8px; padding: 6px 10px; font-size: 11px; max-width: 180px; }
+    .quiz-float a { font-size: 15px; padding: 12px 20px; }
+  }
+
+  @media (min-width: 701px) {
+    body { padding-bottom: 70px; }
+    .quiz-float a { max-width: 320px; }
   }
 
   .highlight-box {
@@ -178,6 +245,11 @@
 </style>
 </head>
 <body>
+
+<div class="donate-banner">
+  <span class="heart">&#10084;</span> Donate on Kaspi for my efforts<br>
+  <span class="phone">+7 777 377 7270</span>
+</div>
 
 <h1>CSCI 272 — Formal Languages Cheat Sheet</h1>
 <p class="subtitle">Undecidability, Recognizability, Reductions, Rice's Theorem</p>
@@ -212,6 +284,7 @@
 <!-- SECTION 2: Known Languages Table -->
 <div class="section">
   <div class="section-title green">2. Языки, которые надо знать наизусть</div>
+  <div class="table-wrap">
   <table>
     <tr>
       <th>Язык</th>
@@ -278,6 +351,7 @@
       <td class="cross">✗</td><td class="cross">✗</td><td class="cross">✗</td>
     </tr>
   </table>
+  </div>
 </div>
 
 <!-- SECTION 3: Quick Decision Patterns -->
@@ -469,6 +543,10 @@
       <td>«A recognizer could be used to construct a recognizer for the complement of A_TM»</td>
     </tr>
   </table>
+</div>
+
+<div class="quiz-float">
+  <a href="quiz.html" target="_blank">&#128221; Take Practice Exam</a>
 </div>
 
 </body>
