@@ -1,0 +1,475 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Formal Languages Cheat Sheet</title>
+<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;600;700&family=Source+Sans+3:wght@400;600;700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #0d1117;
+    --card: #161b22;
+    --border: #30363d;
+    --text: #e6edf3;
+    --muted: #8b949e;
+    --green: #3fb950;
+    --red: #f85149;
+    --blue: #58a6ff;
+    --yellow: #d29922;
+    --purple: #bc8cff;
+    --orange: #f0883e;
+    --cyan: #39d353;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: 'Source Sans 3', sans-serif;
+    padding: 24px;
+    line-height: 1.6;
+  }
+
+  h1 {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 28px;
+    text-align: center;
+    margin-bottom: 8px;
+    background: linear-gradient(135deg, var(--blue), var(--purple));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+  }
+
+  .subtitle {
+    text-align: center;
+    color: var(--muted);
+    margin-bottom: 32px;
+    font-size: 14px;
+  }
+
+  .section {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 20px;
+    margin-bottom: 20px;
+  }
+
+  .section-title {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 18px;
+    font-weight: 700;
+    margin-bottom: 16px;
+    padding-bottom: 8px;
+    border-bottom: 2px solid var(--border);
+  }
+
+  .section-title.blue { color: var(--blue); border-color: var(--blue); }
+  .section-title.green { color: var(--green); border-color: var(--green); }
+  .section-title.yellow { color: var(--yellow); border-color: var(--yellow); }
+  .section-title.purple { color: var(--purple); border-color: var(--purple); }
+  .section-title.orange { color: var(--orange); border-color: var(--orange); }
+  .section-title.red { color: var(--red); border-color: var(--red); }
+  .section-title.cyan { color: var(--cyan); border-color: var(--cyan); }
+
+  table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 15px;
+  }
+
+  th {
+    text-align: left;
+    padding: 10px 12px;
+    background: rgba(255,255,255,0.04);
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 13px;
+    color: var(--muted);
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    border-bottom: 1px solid var(--border);
+  }
+
+  td {
+    padding: 10px 12px;
+    border-bottom: 1px solid rgba(48,54,61,0.5);
+    vertical-align: top;
+  }
+
+  tr:last-child td { border-bottom: none; }
+
+  .check { color: var(--green); font-weight: 700; }
+  .cross { color: var(--red); font-weight: 700; }
+  .mono { font-family: 'JetBrains Mono', monospace; font-size: 14px; }
+  .tag {
+    display: inline-block;
+    padding: 2px 8px;
+    border-radius: 6px;
+    font-size: 12px;
+    font-weight: 600;
+    font-family: 'JetBrains Mono', monospace;
+  }
+  .tag-green { background: rgba(63,185,80,0.15); color: var(--green); }
+  .tag-yellow { background: rgba(210,153,34,0.15); color: var(--yellow); }
+  .tag-red { background: rgba(248,81,73,0.15); color: var(--red); }
+
+  .rule-row {
+    display: flex;
+    gap: 12px;
+    align-items: flex-start;
+    margin-bottom: 12px;
+    padding: 10px 14px;
+    background: rgba(255,255,255,0.02);
+    border-radius: 8px;
+    border-left: 3px solid var(--border);
+  }
+
+  .rule-row:last-child { margin-bottom: 0; }
+  .rule-row.green-border { border-left-color: var(--green); }
+  .rule-row.red-border { border-left-color: var(--red); }
+  .rule-row.yellow-border { border-left-color: var(--yellow); }
+  .rule-row.blue-border { border-left-color: var(--blue); }
+  .rule-row.purple-border { border-left-color: var(--purple); }
+
+  .rule-label {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 13px;
+    font-weight: 600;
+    min-width: 160px;
+    flex-shrink: 0;
+  }
+
+  .rule-text {
+    font-size: 15px;
+    color: var(--text);
+  }
+
+  .arrow { color: var(--muted); margin: 0 4px; }
+
+  .grid-2 {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 20px;
+  }
+
+  @media (max-width: 700px) {
+    .grid-2 { grid-template-columns: 1fr; }
+    .rule-row { flex-direction: column; gap: 4px; }
+    .rule-label { min-width: auto; }
+    body { padding: 12px; }
+  }
+
+  .highlight-box {
+    background: rgba(88,166,255,0.08);
+    border: 1px solid rgba(88,166,255,0.2);
+    border-radius: 8px;
+    padding: 14px;
+    margin-top: 12px;
+    font-size: 14px;
+    color: var(--blue);
+  }
+
+  .divider {
+    height: 1px;
+    background: var(--border);
+    margin: 12px 0;
+  }
+</style>
+</head>
+<body>
+
+<h1>CSCI 272 — Formal Languages Cheat Sheet</h1>
+<p class="subtitle">Undecidability, Recognizability, Reductions, Rice's Theorem</p>
+
+<!-- SECTION 1: Hierarchy -->
+<div class="section">
+  <div class="section-title blue">1. Иерархия «невозможности» — 3 уровня</div>
+  <table>
+    <tr>
+      <th>Уровень</th>
+      <th>Тип</th>
+      <th>Что делает компьютер?</th>
+    </tr>
+    <tr>
+      <td><span class="tag tag-green">Level 1</span></td>
+      <td class="mono">Decidable</td>
+      <td>Всегда даёт чёткий ответ: «Да» или «Нет». (Идеально)</td>
+    </tr>
+    <tr>
+      <td><span class="tag tag-yellow">Level 2</span></td>
+      <td class="mono">Recognizable</td>
+      <td>Если «Да» — скажет «Да». Если «Нет» — может зависнуть навсегда. (Опасно)</td>
+    </tr>
+    <tr>
+      <td><span class="tag tag-red">Level 3</span></td>
+      <td class="mono">Unrecognizable</td>
+      <td>Не может гарантированно сказать «Да» даже тогда, когда ответ «Да». (Безнадёжно)</td>
+    </tr>
+  </table>
+</div>
+
+<!-- SECTION 2: Known Languages Table -->
+<div class="section">
+  <div class="section-title green">2. Языки, которые надо знать наизусть</div>
+  <table>
+    <tr>
+      <th>Язык</th>
+      <th>Что спрашивает?</th>
+      <th>Decidable</th>
+      <th>Recognizable</th>
+      <th>co-Recognizable</th>
+    </tr>
+    <tr>
+      <td class="mono">A_DFA</td>
+      <td>DFA принимает строку w?</td>
+      <td class="check">✓</td><td class="check">✓</td><td class="check">✓</td>
+    </tr>
+    <tr>
+      <td class="mono">A_CFG</td>
+      <td>CFG порождает строку w?</td>
+      <td class="check">✓</td><td class="check">✓</td><td class="check">✓</td>
+    </tr>
+    <tr>
+      <td class="mono">E_DFA</td>
+      <td>Язык DFA пуст?</td>
+      <td class="check">✓</td><td class="check">✓</td><td class="check">✓</td>
+    </tr>
+    <tr>
+      <td class="mono">EQ_DFA</td>
+      <td>Два DFA одинаковые?</td>
+      <td class="check">✓</td><td class="check">✓</td><td class="check">✓</td>
+    </tr>
+    <tr>
+      <td class="mono">E_CFG</td>
+      <td>Язык CFG пуст?</td>
+      <td class="check">✓</td><td class="check">✓</td><td class="check">✓</td>
+    </tr>
+    <tr>
+      <td class="mono">Primes</td>
+      <td>Число простое?</td>
+      <td class="check">✓</td><td class="check">✓</td><td class="check">✓</td>
+    </tr>
+    <tr>
+      <td class="mono">Any finite lang</td>
+      <td>—</td>
+      <td class="check">✓</td><td class="check">✓</td><td class="check">✓</td>
+    </tr>
+    <tr><td colspan="5"><div class="divider"></div></td></tr>
+    <tr>
+      <td class="mono">A_TM</td>
+      <td>TM принимает строку w?</td>
+      <td class="cross">✗</td><td class="check">✓</td><td class="cross">✗</td>
+    </tr>
+    <tr>
+      <td class="mono">HALT_TM</td>
+      <td>TM останавливается на w?</td>
+      <td class="cross">✗</td><td class="check">✓</td><td class="cross">✗</td>
+    </tr>
+    <tr><td colspan="5"><div class="divider"></div></td></tr>
+    <tr>
+      <td class="mono">E_TM</td>
+      <td>Язык TM пуст?</td>
+      <td class="cross">✗</td><td class="cross">✗</td><td class="check">✓</td>
+    </tr>
+    <tr>
+      <td class="mono">EQ_TM</td>
+      <td>Два TM одинаковые?</td>
+      <td class="cross">✗</td><td class="cross">✗</td><td class="cross">✗</td>
+    </tr>
+  </table>
+</div>
+
+<!-- SECTION 3: Quick Decision Patterns -->
+<div class="section">
+  <div class="section-title yellow">3. Быстрые паттерны для определения типа</div>
+  <div class="rule-row green-border">
+    <div class="rule-label" style="color:var(--green)">Finite language</div>
+    <div class="rule-text"><span class="arrow">→</span> Всегда <strong>decidable</strong>. Можно захардкодить все элементы.</div>
+  </div>
+  <div class="rule-row green-border">
+    <div class="rule-label" style="color:var(--green)">DFA / CFG вопросы</div>
+    <div class="rule-text"><span class="arrow">→</span> Обычно <strong>decidable</strong>. DFA и CFG — простые модели.</div>
+  </div>
+  <div class="rule-row yellow-border">
+    <div class="rule-label" style="color:var(--yellow)">«Хотя бы N штук»</div>
+    <div class="rule-text"><span class="arrow">→</span> <strong>Recognizable, not decidable</strong>. Можно найти N штук параллельно, но нельзя сказать «нет».</div>
+  </div>
+  <div class="rule-row red-border">
+    <div class="rule-label" style="color:var(--red)">«Бесконечно много»</div>
+    <div class="rule-text"><span class="arrow">→</span> <strong>Not recognizable</strong>. Никогда не подтвердишь «бесконечно», всегда нашёл лишь конечное число.</div>
+  </div>
+  <div class="rule-row red-border">
+    <div class="rule-label" style="color:var(--red)">Содержит Ā_TM</div>
+    <div class="rule-text"><span class="arrow">→</span> <strong>Not recognizable</strong>. Если что-то содержит Ā_TM или к нему сводится — безнадёжно.</div>
+  </div>
+</div>
+
+<!-- SECTION 4: Complement & Closure Rules -->
+<div class="section">
+  <div class="section-title purple">4. Правила для complement</div>
+  <table>
+    <tr><th>Утверждение</th><th>Верно?</th></tr>
+    <tr><td>Finite <span class="arrow">→</span> decidable</td><td class="check">TRUE</td></tr>
+    <tr><td>Finite <span class="arrow">→</span> recognizable</td><td class="check">TRUE</td></tr>
+    <tr><td>Decidable <span class="arrow">→</span> recognizable</td><td class="check">TRUE</td></tr>
+    <tr><td>Decidable <span class="arrow">→</span> complement is decidable</td><td class="check">TRUE</td></tr>
+    <tr><td>Recognizable <span class="arrow">→</span> complement is recognizable</td><td class="cross">FALSE</td></tr>
+    <tr><td>Undecidable <span class="arrow">→</span> complement is unrecognizable</td><td class="cross">FALSE (может быть и так и так)</td></tr>
+    <tr><td>Unrecognizable <span class="arrow">→</span> complement is recognizable</td><td class="cross">FALSE (может быть и так и так)</td></tr>
+    <tr><td>Decidable <span class="arrow">↔</span> recognizable AND co-recognizable</td><td class="check">TRUE</td></tr>
+  </table>
+</div>
+
+<!-- SECTION 5: Closure Properties -->
+<div class="section">
+  <div class="section-title orange">5. Замкнутость (closure properties)</div>
+  <table>
+    <tr><th>Класс</th><th>Замкнут под</th></tr>
+    <tr>
+      <td class="mono">Decidable</td>
+      <td>union, intersection, complement, concatenation, star — <strong>ВСЁ</strong></td>
+    </tr>
+    <tr>
+      <td class="mono">Recognizable</td>
+      <td>union, intersection, concatenation, star — но <strong>НЕ complement</strong></td>
+    </tr>
+    <tr>
+      <td class="mono">co-Recognizable</td>
+      <td>union, intersection — но <strong>НЕ complement</strong></td>
+    </tr>
+    <tr>
+      <td class="mono">Unrecognizable</td>
+      <td><strong>НЕ замкнуты ни под чем</strong> (union, intersection, complement — всё может дать recognizable)</td>
+    </tr>
+  </table>
+
+  <div style="margin-top:16px;">
+    <div class="section-title" style="font-size:15px; color:var(--orange); border:none; margin-bottom:10px; padding-bottom:0;">Union / Intersection с разными классами:</div>
+    <div class="rule-row blue-border">
+      <div class="rule-label" style="color:var(--blue)">dec ∪/∩ X</div>
+      <div class="rule-text">= зависит от X (не может стать хуже чем X)</div>
+    </div>
+    <div class="rule-row green-border">
+      <div class="rule-label" style="color:var(--green)">rec ∪ rec</div>
+      <div class="rule-text">= recognizable</div>
+    </div>
+    <div class="rule-row green-border">
+      <div class="rule-label" style="color:var(--green)">rec ∩ rec</div>
+      <div class="rule-text">= recognizable</div>
+    </div>
+    <div class="rule-row yellow-border">
+      <div class="rule-label" style="color:var(--yellow)">unrec ∪ rec</div>
+      <div class="rule-text">= может быть что угодно</div>
+    </div>
+    <div class="rule-row yellow-border">
+      <div class="rule-label" style="color:var(--yellow)">unrec ∩ unrec</div>
+      <div class="rule-text">= может быть что угодно</div>
+    </div>
+  </div>
+
+  <div style="margin-top:16px;">
+    <div class="section-title" style="font-size:15px; color:var(--orange); border:none; margin-bottom:10px; padding-bottom:0;">Complement конкретных случаев:</div>
+    <div class="rule-row green-border">
+      <div class="rule-label" style="color:var(--green)">complement decidable</div>
+      <div class="rule-text">= decidable</div>
+    </div>
+    <div class="rule-row red-border">
+      <div class="rule-label" style="color:var(--red)">complement rec (но не dec)</div>
+      <div class="rule-text">= not recognizable</div>
+    </div>
+    <div class="rule-row yellow-border">
+      <div class="rule-label" style="color:var(--yellow)">complement not rec</div>
+      <div class="rule-text">= recognizable (но not decidable)</div>
+    </div>
+  </div>
+</div>
+
+<!-- SECTION 6: Mapping Reductions -->
+<div class="section">
+  <div class="section-title cyan">6. Mapping Reductions (A ≤m B)</div>
+  <p style="color:var(--muted); margin-bottom:16px; font-size:14px;">
+    A ≤m B означает: есть вычислимая функция f, такая что w ∈ A тогда и только тогда, когда f(w) ∈ B. «A сводится к B» = «B не проще чем A».
+  </p>
+  <table>
+    <tr><th>Если мы знаем...</th><th>И имеем...</th><th>Тогда...</th></tr>
+    <tr>
+      <td>B is Decidable</td><td class="mono">A ≤m B</td><td>A is Decidable</td>
+    </tr>
+    <tr>
+      <td>A is Undecidable</td><td class="mono">A ≤m B</td><td>B is Undecidable</td>
+    </tr>
+    <tr>
+      <td>B is Recognizable</td><td class="mono">A ≤m B</td><td>A is Recognizable</td>
+    </tr>
+    <tr>
+      <td>A is Unrecognizable</td><td class="mono">A ≤m B</td><td>B is Unrecognizable</td>
+    </tr>
+  </table>
+
+  <div class="highlight-box" style="margin-top:16px;">
+    <strong>Важно:</strong> Ā ≤m B̄ <span class="arrow">→</span> A ≤m B (та же функция f работает, просто «переворачивается»)
+  </div>
+
+  <div style="margin-top:16px;">
+    <div class="section-title" style="font-size:15px; color:var(--cyan); border:none; margin-bottom:10px; padding-bottom:0;">Известные редукции:</div>
+    <div class="rule-row blue-border">
+      <div class="rule-label mono" style="color:var(--blue)">A_TM ≤m HALT_TM</div>
+      <div class="rule-text"><span class="arrow">→</span> HALT_TM undecidable</div>
+    </div>
+    <div class="rule-row blue-border">
+      <div class="rule-label mono" style="color:var(--blue)">A_TM ≤m EQ_TM</div>
+      <div class="rule-text"><span class="arrow">→</span> EQ_TM undecidable + Ā_TM ≤m EQ_TM → EQ_TM unrecognizable</div>
+    </div>
+    <div class="rule-row blue-border">
+      <div class="rule-label mono" style="color:var(--blue)">A_TM ≤m E_TM</div>
+      <div class="rule-text"><span class="arrow">→</span> E_TM undecidable</div>
+    </div>
+    <div class="rule-row blue-border">
+      <div class="rule-label mono" style="color:var(--blue)">E_TM ≤m EQ_TM</div>
+      <div class="rule-text"><span class="arrow">→</span> EQ_TM undecidable (ещё одна редукция)</div>
+    </div>
+  </div>
+</div>
+
+<!-- SECTION 7: Rice's Theorem -->
+<div class="section">
+  <div class="section-title red">7. Теорема Райса (Rice's Theorem)</div>
+  <p style="margin-bottom:12px;">Если свойство P языка TM:</p>
+  <div class="rule-row purple-border">
+    <div class="rule-label" style="color:var(--purple)">Нетривиальное</div>
+    <div class="rule-text">Некоторые TM удовлетворяют P, но не все</div>
+  </div>
+  <div class="rule-row purple-border">
+    <div class="rule-label" style="color:var(--purple)">Свойство языка</div>
+    <div class="rule-text">Если L(M₁) = L(M₂), то оба в P или оба не в P</div>
+  </div>
+  <p style="margin-top:12px;"><strong style="color:var(--red);">→ Тогда P undecidable!</strong></p>
+
+  <div class="highlight-box" style="border-color:rgba(248,81,73,0.3); background:rgba(248,81,73,0.06); color:var(--red); margin-top:12px;">
+    <strong>НЕ работает для:</strong> свойств самой машины (а не языка). Например «M имеет ≥5 состояний» — это свойство МАШИНЫ, а не её языка. Rice's theorem не применима.
+  </div>
+</div>
+
+<!-- SECTION 8: Justification Patterns for Tests -->
+<div class="section">
+  <div class="section-title blue">8. Паттерны обоснований для теста</div>
+  <table>
+    <tr><th>Ответ</th><th>Обоснование</th></tr>
+    <tr>
+      <td><span class="tag tag-green">Decidable</span></td>
+      <td>«The language is finite» / «The language is infinite, but regular» / «I can write a program to decide it»</td>
+    </tr>
+    <tr>
+      <td><span class="tag tag-yellow">Rec, not dec</span></td>
+      <td>«Could be recognized by running multiple TMs in parallel stepwise, but a decider could construct a decider for A_TM»</td>
+    </tr>
+    <tr>
+      <td><span class="tag tag-red">Not recognizable</span></td>
+      <td>«A recognizer could be used to construct a recognizer for the complement of A_TM»</td>
+    </tr>
+  </table>
+</div>
+
+</body>
+</html>
